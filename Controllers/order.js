@@ -67,17 +67,23 @@ const deleteAllOrder = (req, res, next) => {
 
 const updateOrder = async (req, res, next) => {
   try {
+    const orderId = req.params.id;
     const updatedOrder = await Orders.findByIdAndUpdate(
-      req.params.id,
-      { $set: req.body },
+      orderId,
+      { $set: { verified: true } },
       { new: true }
     );
+
+    if (!updatedOrder) {
+      return res.status(404).json({ message: "Order not found" });
+    }
 
     res.status(200).json(updatedOrder);
   } catch (error) {
     next(error);
   }
 };
+
 
 const deleteOrder = async (req, res, next) => {
   try {
@@ -91,9 +97,9 @@ const deleteOrder = async (req, res, next) => {
 
 const getOrder = async (req, res, next) => {
   try {
-    const orders = await Orders.find()
-      .populate("userId")
-      .populate("productId");
+    const  orders =await   Orders.find()
+    .populate("userId")
+    .populate("productId")
 
     res.status(200).json(orders);
   } catch (error) {
@@ -103,8 +109,7 @@ const getOrder = async (req, res, next) => {
 
 const getOrdersByUserId = async (req, res, next) => {
   try {
-    const userId = "64958c8f3841dd36841d4292";
-    console.log(userId)
+    const userId = req.query.userId; // Retrieve userId from query parameters
     const orders = await Orders.find({ userId })
       .populate("userId")
       .populate("productId");
@@ -114,6 +119,7 @@ const getOrdersByUserId = async (req, res, next) => {
     next(error);
   }
 };
+
 
 
 module.exports = {

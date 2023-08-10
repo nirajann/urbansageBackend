@@ -43,6 +43,18 @@ const productSchema = mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    comments: [
+      {
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        text: String,
+      },
+    ],
+    ratings: [
+      {
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        value: Number,
+      },
+    ],
   },
   {
     timestamps: true,

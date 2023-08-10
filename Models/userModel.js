@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
-// Model for user login
 const userSchema = mongoose.Schema(
   {
     username: {
@@ -19,22 +18,24 @@ const userSchema = mongoose.Schema(
     },
     pic: {
       type: String,
-      required: true,
-      default:
-        "https://th.bing.com/th/id/R.88a6a68e235ccdb2e12f9573a296492d?rik=%2f8ojC8JRbK0mxQ&riu=http%3a%2f%2fclipground.com%2fimages%2fuser-icon-png-free-2.jpg&ehk=F%2fbwK6CA3%2bXvYOQmRwhQCMDldyyq6QIs0g5wf2hlfoU%3d&risl=&pid=ImgRaw&r=0",
+      default: "uploads\\user\\pic-1689003691565.png",
     },
     isAdmin: {
       type: String,
       required: true,
       default: "false",
     },
+    comments: [
+      {
+        productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+        text: String,
+      },
+    ],
   },
   {
     timestamps: true,
   }
 );
-
-// Encrypting password
 
 
 module.exports = mongoose.model("User", userSchema);
